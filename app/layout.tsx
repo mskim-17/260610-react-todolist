@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Asta_Sans, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+
+
+const astaSans = Asta_Sans({
+  subsets: ["latin"],   // korean이 작동하지 않아 임시로 표기
+  variable: "--font-asta-sans",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,8 +30,8 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      lang="ko"
+      className={`${astaSans.className} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
