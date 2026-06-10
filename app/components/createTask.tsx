@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { getTodayDateString } from "../utils/date";
 import Image from "next/image";
+import { buttonBaseClass, buttonImageBaseClass, buttonImageShadowClass, buttonShadowClass, inputDateBaseClass, inputTextBaseClass } from "../styles/classes";
+import { getTodayDateString } from "../utils/date";
 
 type CreateTaskProps = {
   name: string,
@@ -11,17 +11,15 @@ type CreateTaskProps = {
 
 export default function CreateTask({ name, date, onChange, onCreate }: CreateTaskProps) {
 
-
   return (
     <div className="flex items-center gap-3 my-1">
       <input
         type="text"
         name="name"
         value={name}
-        className="outline-none text-[14px] font-semibold
-                   w-[200px] h-[28px] box-border 
-                   border border-zinc-300 rounded-full px-4
-                   focus:shadow-lg focus:shadow-blue-500/30 focus:border-blue-300"
+        className={`${inputTextBaseClass}
+                    text-[14px] font-semibold
+                    w-[200px] h-[28px]`}
         onChange={onChange}
       />
       <input
@@ -29,15 +27,13 @@ export default function CreateTask({ name, date, onChange, onCreate }: CreateTas
         name="date"
         value={date}
         min={getTodayDateString()}
-        className="tabular-nums tracking-tighter text-[14px] 
-                   outline-none w-[120px] h-[28px] box-border 
-                   border border-zinc-300 rounded-full px-2
-                   focus:shadow-lg focus:shadow-blue-500/30 focus:border-blue-300"
+        className={`${inputDateBaseClass}
+                    text-[14px] 
+                    w-[120px] h-[28px]`}
         onChange={onChange}
       />
       <button
-        className="flex justify-center items-center
-                   disabled:opacity-20 select-none hover:not-disabled:invert-70 hover:not-disabled:cursor-pointer"
+        className={`${buttonBaseClass} ${buttonShadowClass.blue}`}
         onClick={onCreate}
         disabled={name.trim() === ''}
       ><Image
@@ -45,6 +41,7 @@ export default function CreateTask({ name, date, onChange, onCreate }: CreateTas
           width={14}
           height={14}
           alt="add"
+          className={`${buttonImageBaseClass} ${buttonImageShadowClass.blue}`}
         /></button>
     </div>
   );

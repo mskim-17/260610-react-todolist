@@ -1,14 +1,10 @@
 import Image from "next/image";
 import { useState } from "react";
+import { buttonBaseClass, buttonImageBaseClass, buttonImageShadowClass, buttonShadowClass } from "../styles/classes";
 import { TaskType } from "../types/task";
 import { getShiftedDateString, getTodayDateString } from "../utils/date";
+import ViewTask from "./viewTask";
 
-type ViewTaskProps = {
-  task: TaskType,
-  showDate: boolean,
-  onEdit: (id: number, isCompleted: boolean, name: string, date: string) => void,
-  onRemove: (id: number) => void
-};
 
 type ViewTasksProps = {
   tasks: TaskType[],
@@ -21,106 +17,20 @@ type ViewTasksDateProps = ViewTasksProps & {
   setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
 };
 
-function ViewTask({ task, showDate, onEdit, onRemove }: ViewTaskProps) {
-
-  const [isEditing, setIsEditing] = useState(task.isEditing);
-  const [taskName, setTaskName] = useState(task.name);
-  const [taskDate, setTaskDate] = useState(task.date);
-  const [isCompleted, setIsCompleted] = useState(task.isCompleted);
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.name == "name") setTaskName(e.target.value);
-    if (e.target.name == "date") setTaskDate(e.target.value);
-    if (e.target.name == "isCompleted") setIsCompleted(Boolean(e.target.value));
-  }
-
-  return (
-    <div className="flex justify-center items-center gap-3 border-b-1 border-zinc-300/30 py-1 w-full">
-      <input
-        type="checkbox"
-        name="isCompleted"
-        className={`w-[14px] h-[14px] box-border
-                      disabled:opacity-30`}
-        checked={isCompleted}
-        disabled={isEditing}
-        onChange={() => {
-          const newIsCompleted = !isCompleted;
-          setIsCompleted(newIsCompleted);
-          onEdit(task.id, newIsCompleted, taskName, taskDate);
-        }}
-      />
-      <input
-        type="text"
-        name="name"
-        className={`outline-none text-[14px] ${isCompleted ? "text-zinc-400 line-through" : "font-semibold"}
-                   w-[200px] h-[28px] box-border
-                   not-focus:disabled:overflow-hidden not-focus:disabled:text-ellipsis
-                   border border-zinc-300 rounded-full px-4
-                   focus:not-disabled:shadow-lg focus:not-disabled:shadow-blue-500/30 focus:not-disabled:border-blue-300
-                   disabled:border-transparent`}
-        value={taskName}
-        onChange={onChange}
-        disabled={!isEditing} />
-      <input
-        type="date"
-        name="date"
-        min={getTodayDateString()}
-        className={`tabular-nums tracking-tighter text-[14px] 
-                   outline-none w-[120px] h-[28px] box-border 
-                   border border-zinc-300 rounded-full px-2
-                   focus:not-disabled:shadow-lg focus:not-disabled:shadow-blue-500/30 focus:not-disabled:border-blue-300
-                   ${showDate ? "disabled:border-transparent" : "disabled:opacity-0"}`}
-        value={taskDate}
-        onChange={onChange}
-        disabled={!isEditing} />
-      <button
-        className="flex justify-center items-center
-                   disabled:opacity-20 select-none hover:not-disabled:invert-70 hover:not-disabled:cursor-pointer"
-        onClick={() => {
-          if (!isEditing) {
-            setIsEditing(true);
-            return;
-          }
-          onEdit(task.id, isCompleted, taskName, taskDate);
-          setIsEditing(false);
-        }}
-        disabled={isCompleted}
-      ><Image
-          src={isEditing ? "/images/floppy-disk-solid.svg" : "/images/pen-to-square-solid.svg"}
-          width={16}
-          height={16}
-          alt="edit"
-        /></button>
-      <button
-        className="flex justify-center items-center
-                   disabled:opacity-20 select-none hover:not-disabled:invert-70 hover:not-disabled:cursor-pointer"
-        onClick={() => { onRemove(task.id) }}
-        disabled={isEditing || isCompleted}
-      ><Image
-          src="/images/xmark-solid.svg"
-          width={12}
-          height={12}
-          alt="remove"
-        /></button>
-    </div>
-  );
-}
-
-
 export function ViewTasksDate({ selectedDate, setSelectedDate, tasks, onEdit, onRemove }: ViewTasksDateProps) {
 
   return (
     <div>
       <div className="flex items-center justify-center mt-7">
         <button
-          className="w-[16px] h-[16px] hover:cursor-pointer select-none"
+          className={`${buttonBaseClass} ${buttonShadowClass.blue}`}
           onClick={() => setSelectedDate(getShiftedDateString(selectedDate, -1))}
         >
           <Image
-            src="/images/angle-right-solid.svg"
+            src="/images/angle-left-solid.svg"
             width={8}
             height={16}
-            className="rotate-180"
+            className={`${buttonImageBaseClass} ${buttonImageShadowClass.blue}`}
             alt="edit"
           />
         </button>
@@ -128,7 +38,7 @@ export function ViewTasksDate({ selectedDate, setSelectedDate, tasks, onEdit, on
           {selectedDate}
         </div>
         <button
-          className="w-[16px] h-[16px] hover:cursor-pointer select-none"
+          className={`${buttonBaseClass} ${buttonShadowClass.blue}`}
           onClick={() => setSelectedDate(getShiftedDateString(selectedDate, 1))}
         >
           <Image
@@ -136,6 +46,7 @@ export function ViewTasksDate({ selectedDate, setSelectedDate, tasks, onEdit, on
             width={8}
             height={16}
             alt="edit"
+            className={`${buttonImageBaseClass} ${buttonImageShadowClass.blue}`}
           />
         </button>
       </div>
@@ -181,7 +92,7 @@ export function ViewTasks({ tasks, onEdit, onRemove }: ViewTasksProps) {
           }}
         /><div>모든 날짜의 계획 보기  </div>
       </div>
-      <hr className="my-2 w-full border-zinc-300" />
+      <hr className="my-2 w-full border-zinc-300 dark:border-zinc-800" />
       <div>
         {showAll
           ? <ViewTasksAll tasks={tasks} onEdit={onEdit} onRemove={onRemove} />

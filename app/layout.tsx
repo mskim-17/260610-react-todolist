@@ -1,22 +1,12 @@
 import type { Metadata } from "next";
-import { Asta_Sans, Geist, Geist_Mono } from "next/font/google";
+import { Google_Sans } from "next/font/google";
 import "./globals.css";
 
-
-const astaSans = Asta_Sans({
-  subsets: ["latin"],   // korean이 작동하지 않아 임시로 표기
-  variable: "--font-asta-sans",
-});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const googleSans = Google_Sans({
+  variable: "--font-google-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -31,7 +21,7 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
-      className={`${astaSans.className} h-full antialiased`}
+      className={`${googleSans.variable} font-pretendard h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
