@@ -8,10 +8,11 @@ type ViewTaskProps = {
   task: TaskType,
   showDate: boolean,
   onEdit: (id: number, isCompleted: boolean, name: string, date: string) => void,
+  onSave: () => void;
   onRemove: (id: number) => void
 };
 
-export default function ViewTask({ task, showDate, onEdit, onRemove }: ViewTaskProps) {
+export default function ViewTask({ task, showDate, onEdit, onSave, onRemove }: ViewTaskProps) {
 
   const [isEditing, setIsEditing] = useState(task.isEditing);
   const [taskStatus, setTaskStatus] = useState({
@@ -39,7 +40,7 @@ export default function ViewTask({ task, showDate, onEdit, onRemove }: ViewTaskP
   }
 
   return (
-    <div className="flex justify-center items-center gap-3 border-b-1 border-zinc-300 dark:border-zinc-700/30 py-1 w-full">
+    <div className="flex justify-center items-center gap-3 border-b-1 border-zinc-300/30 dark:border-zinc-700/30 py-1 w-full">
       <input
         type="checkbox"
         name="isCompleted"
@@ -78,7 +79,7 @@ export default function ViewTask({ task, showDate, onEdit, onRemove }: ViewTaskP
             setIsEditing(true);
             return;
           }
-          onEdit(task.id, taskStatus.isCompleted, taskStatus.name, taskStatus.date);
+          onSave();
           setIsEditing(false);
         }}
         disabled={taskStatus.isCompleted}

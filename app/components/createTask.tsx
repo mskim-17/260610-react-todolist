@@ -12,7 +12,7 @@ type CreateTaskProps = {
 export default function CreateTask({ name, date, onChange, onCreate }: CreateTaskProps) {
 
   return (
-    <div className="flex items-center gap-3 my-1 mr-3">
+    <div className="flex items-center gap-3 my-1">
       <div className="flex flex-col">
         <label className={`${labelBaseCase}`}>작업명</label>
         <input

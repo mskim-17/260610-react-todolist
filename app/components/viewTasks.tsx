@@ -9,6 +9,7 @@ import ViewTask from "./viewTask";
 type ViewTasksProps = {
   tasks: TaskType[],
   onEdit: (id: number, isCompleted: boolean, name: string, date: string) => void,
+  onSave: () => void;
   onRemove: (id: number) => void
 };
 
@@ -17,13 +18,13 @@ type ViewTasksDateProps = ViewTasksProps & {
   setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export function ViewTasksDate({ selectedDate, setSelectedDate, tasks, onEdit, onRemove }: ViewTasksDateProps) {
+export function ViewTasksDate({ selectedDate, setSelectedDate, tasks, onEdit, onSave, onRemove }: ViewTasksDateProps) {
 
   return (
     <div>
       <div className="flex items-center justify-center mt-7">
         <button
-          className={`${buttonBaseClass} ${buttonShadowClass.blue}`}
+          className={`${buttonBaseClass} ${buttonShadowClass.blue} w-8`}
           onClick={() => setSelectedDate(getShiftedDateString(selectedDate, -1))}
         >
           <Image
@@ -34,11 +35,11 @@ export function ViewTasksDate({ selectedDate, setSelectedDate, tasks, onEdit, on
             alt="edit"
           />
         </button>
-        <div className="text-xl font-semibold tabular-nums w-[300px] text-center tracking-tight select-none">
+        <div className="text-xl font-semibold tabular-nums w-[200px] text-center tracking-tight select-none">
           {selectedDate}
         </div>
         <button
-          className={`${buttonBaseClass} ${buttonShadowClass.blue}`}
+          className={`${buttonBaseClass} ${buttonShadowClass.blue} w-8`}
           onClick={() => setSelectedDate(getShiftedDateString(selectedDate, 1))}
         >
           <Image
@@ -54,31 +55,43 @@ export function ViewTasksDate({ selectedDate, setSelectedDate, tasks, onEdit, on
         {(tasks.filter((task) => task.date == selectedDate).length >= 1) ?
           tasks
             .filter((task) => task.date == selectedDate)
-            .map((task) => <ViewTask showDate={false} task={task} key={task.id} onEdit={onEdit} onRemove={onRemove} />)
+            .map((task) => <ViewTask
+              showDate={false}
+              task={task}
+              key={task.id}
+              onEdit={onEdit}
+              onSave={onSave}
+              onRemove={onRemove} />)
           : <div className="text-sm text-zinc-500 font-medium py-1 text-center w-full">🍵 계획이 없습니다.</div>}
       </div>
     </div>
   )
 }
 
-export function ViewTasksAll({ tasks, onEdit, onRemove }: ViewTasksProps) {
+export function ViewTasksAll({ tasks, onEdit, onSave, onRemove }: ViewTasksProps) {
   return (
     <div className="mt-5 w-full">
       {(tasks.length >= 1) ?
         tasks
-          .map((task) => <ViewTask showDate={true} task={task} key={task.id} onEdit={onEdit} onRemove={onRemove} />)
+          .map((task) => <ViewTask
+            showDate={true}
+            task={task}
+            key={task.id}
+            onEdit={onEdit}
+            onSave={onSave}
+            onRemove={onRemove} />)
         : <div className="text-sm text-zinc-500 font-medium py-1 text-center w-full">🍵 계획이 없습니다.</div>}
     </div>
   )
 }
 
-export function ViewTasks({ tasks, onEdit, onRemove }: ViewTasksProps) {
+export function ViewTasks({ tasks, onEdit, onSave, onRemove }: ViewTasksProps) {
 
   const [showAll, setShowAll] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string>(getTodayDateString());
 
   return (
-    <div className="w-[410px]">
+    <div className="w-full">
       <div className="w-full flex flex-row-reverse items-center text-xs gap-3 font-medium mt-3">
         <input
           type="checkbox"
@@ -95,8 +108,18 @@ export function ViewTasks({ tasks, onEdit, onRemove }: ViewTasksProps) {
       <hr className="my-2 w-full border-zinc-300 dark:border-zinc-700" />
       <div>
         {showAll
-          ? <ViewTasksAll tasks={tasks} onEdit={onEdit} onRemove={onRemove} />
-          : <ViewTasksDate selectedDate={selectedDate} setSelectedDate={setSelectedDate} tasks={tasks} onEdit={onEdit} onRemove={onRemove} />}
+          ? <ViewTasksAll
+            tasks={tasks}
+            onEdit={onEdit}
+            onSave={onSave}
+            onRemove={onRemove} />
+          : <ViewTasksDate
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+            tasks={tasks}
+            onEdit={onEdit}
+            onSave={onSave}
+            onRemove={onRemove} />}
       </div>
     </div>
   )

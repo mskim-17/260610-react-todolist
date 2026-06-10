@@ -49,10 +49,15 @@ export default function Home() {
         task.id == id
           ? { ...task, isCompleted: isCompleted, name: name, date: date }
           : task)
-      ).sort((a, b) => (
-        10000 * (new Date(a.date).getTime() - new Date(b.date).getTime()) +
-        a.id - b.id
-      )));
+      ));
+  }
+
+  const onSave = () => {
+    setTasks(
+      [...tasks].sort((a, b) => (
+        (new Date(a.date).getTime() - new Date(b.date).getTime()) || a.id - b.id
+      ))
+    );
   }
 
   const onRemove = (id: number) => {
@@ -67,7 +72,7 @@ export default function Home() {
         {/* Create Task */}
         <CreateTask name={name} date={date} onChange={onChange} onCreate={onCreate} />
         {/* View Task */}
-        <ViewTasks tasks={tasks} onEdit={onEdit} onRemove={onRemove} />
+        <ViewTasks tasks={tasks} onEdit={onEdit} onSave={onSave} onRemove={onRemove} />
       </main>
     </div>
   );
