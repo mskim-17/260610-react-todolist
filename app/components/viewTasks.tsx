@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
-import { buttonBaseClass, buttonImageBaseClass, buttonImageShadowClass, buttonShadowClass } from "../styles/classes";
+import { buttonBaseClass, buttonImageBaseClass, buttonImageShadowClass, buttonShadowClass, imageBaseClass } from "../styles/classes";
 import { TaskType } from "../types/task";
 import { getShiftedDateString, getTodayDateString } from "../utils/date";
 import ViewTask from "./viewTask";
@@ -30,7 +30,7 @@ export function ViewTasksDate({ selectedDate, setSelectedDate, tasks, onEdit, on
             src="/images/angle-left-solid.svg"
             width={8}
             height={16}
-            className={`${buttonImageBaseClass} ${buttonImageShadowClass.blue}`}
+            className={`${imageBaseClass} ${buttonImageBaseClass} ${buttonImageShadowClass.blue}`}
             alt="edit"
           />
         </button>
@@ -46,7 +46,7 @@ export function ViewTasksDate({ selectedDate, setSelectedDate, tasks, onEdit, on
             width={8}
             height={16}
             alt="edit"
-            className={`${buttonImageBaseClass} ${buttonImageShadowClass.blue}`}
+            className={`${imageBaseClass} ${buttonImageBaseClass} ${buttonImageShadowClass.blue}`}
           />
         </button>
       </div>
@@ -92,7 +92,7 @@ export function ViewTasks({ tasks, onEdit, onRemove }: ViewTasksProps) {
           }}
         /><div>모든 날짜의 계획 보기  </div>
       </div>
-      <hr className="my-2 w-full border-zinc-300 dark:border-zinc-800" />
+      <hr className="my-2 w-full border-zinc-300 dark:border-zinc-700" />
       <div>
         {showAll
           ? <ViewTasksAll tasks={tasks} onEdit={onEdit} onRemove={onRemove} />

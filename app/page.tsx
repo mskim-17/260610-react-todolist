@@ -37,8 +37,8 @@ export default function Home() {
         isCompleted: false
       }
     ].sort((a, b) => (
-      10000 * (new Date(a.date).getDate() - new Date(b.date).getDate()) +
-      a.id - b.id
+      (new Date(a.date).getDate() - new Date(b.date).getDate())
+      || a.id - b.id
     )))
     setTaskInputs({ ...taskInputs, name: "" }); // date는 연달아 쓸 수 있도록 유지
   }
@@ -46,13 +46,13 @@ export default function Home() {
   const onEdit = (id: number, isCompleted: boolean, name: string, date: string) => {
     setTasks(
       tasks.map((task) => (
-        task.id == id 
-        ? {...task, isCompleted: isCompleted, name: name, date: date} 
-        : task)
-    ).sort((a, b) => (
-      10000 * (new Date(a.date).getDate() - new Date(b.date).getDate()) +
-      a.id - b.id
-    )));
+        task.id == id
+          ? { ...task, isCompleted: isCompleted, name: name, date: date }
+          : task)
+      ).sort((a, b) => (
+        10000 * (new Date(a.date).getTime() - new Date(b.date).getTime()) +
+        a.id - b.id
+      )));
   }
 
   const onRemove = (id: number) => {

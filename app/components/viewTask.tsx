@@ -14,30 +14,40 @@ type ViewTaskProps = {
 export default function ViewTask({ task, showDate, onEdit, onRemove }: ViewTaskProps) {
 
   const [isEditing, setIsEditing] = useState(task.isEditing);
-  const [taskName, setTaskName] = useState(task.name);
-  const [taskDate, setTaskDate] = useState(task.date);
-  const [isCompleted, setIsCompleted] = useState(task.isCompleted);
+  const [taskStatus, setTaskStatus] = useState({
+    name: task.name,
+    date: task.date,
+    isCompleted: task.isCompleted
+  });
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.name == "name") setTaskName(e.target.value);
-    if (e.target.name == "date") setTaskDate(e.target.value);
-    if (e.target.name == "isCompleted") setIsCompleted(Boolean(e.target.value));
+
+    const { name, value, checked, type } = e.target;
+
+    const newValue =
+    type === "checkbox"
+      ? checked
+      : value;
+
+    const newTaskStatus = {
+      ...taskStatus,
+      [name]: newValue,
+    };
+
+    setTaskStatus(newTaskStatus);
+    onEdit(task.id, newTaskStatus.isCompleted, newTaskStatus.name, newTaskStatus.date);
   }
 
   return (
-    <div className="flex justify-center items-center gap-3 border-b-1 border-zinc-300 dark:border-zinc-800/30 py-1 w-full">
+    <div className="flex justify-center items-center gap-3 border-b-1 border-zinc-300 dark:border-zinc-700/30 py-1 w-full">
       <input
         type="checkbox"
         name="isCompleted"
         className={`w-[14px] h-[14px] box-border
                       disabled:opacity-30`}
-        checked={isCompleted}
+        checked={taskStatus.isCompleted}
         disabled={isEditing}
-        onChange={() => {
-          const newIsCompleted = !isCompleted;
-          setIsCompleted(newIsCompleted);
-          onEdit(task.id, newIsCompleted, taskName, taskDate);
-        }}
+        onChange={onChange}
       />
       <input
         type="text"
@@ -45,9 +55,9 @@ export default function ViewTask({ task, showDate, onEdit, onRemove }: ViewTaskP
         className={`${inputTextBaseClass}
                     w-[200px] h-[28px]
                     text-[14px] 
-                    ${isCompleted ? "text-zinc-400 line-through" : "font-semibold"}
+                    ${taskStatus.isCompleted ? "text-zinc-400 line-through" : "font-semibold"}
                   `}
-        value={taskName}
+        value={taskStatus.name}
         onChange={onChange}
         disabled={!isEditing} />
       <input
@@ -58,7 +68,7 @@ export default function ViewTask({ task, showDate, onEdit, onRemove }: ViewTaskP
                     text-[14px]
                     w-[120px] h-[28px]
                     ${showDate ? "disabled:border-transparent" : "disabled:opacity-0"}`}
-        value={taskDate}
+        value={taskStatus.date}
         onChange={onChange}
         disabled={!isEditing} />
       <button
@@ -68,10 +78,10 @@ export default function ViewTask({ task, showDate, onEdit, onRemove }: ViewTaskP
             setIsEditing(true);
             return;
           }
-          onEdit(task.id, isCompleted, taskName, taskDate);
+          onEdit(task.id, taskStatus.isCompleted, taskStatus.name, taskStatus.date);
           setIsEditing(false);
         }}
-        disabled={isCompleted}
+        disabled={taskStatus.isCompleted}
       >
         <Image
           src={isEditing ? "/images/floppy-disk-solid.svg" : "/images/pen-to-square-solid.svg"}
@@ -84,7 +94,7 @@ export default function ViewTask({ task, showDate, onEdit, onRemove }: ViewTaskP
       <button
         className={`${buttonBaseClass} ${buttonShadowClass.red}`}
         onClick={() => { onRemove(task.id) }}
-        disabled={isEditing || isCompleted}
+        disabled={isEditing || taskStatus.isCompleted}
       >
         <Image
           src="/images/xmark-solid.svg"

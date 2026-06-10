@@ -1,8 +1,14 @@
+export const labelBaseCase = `
+  text-[10px] font-medium text-zinc-400 ml-[6px] my-[2px]
+`;
+
 export const inputBaseClass = `
   bg-white dark:bg-zinc-800 disabled:bg-transparent
   box-border rounded-full
   border border-zinc-300 dark:border-zinc-600 
   outline-none
+  transition-shadow transition-border
+  duration-150
   focus:enabled:shadow-lg focus:enabled:shadow-blue-500/30 focus:enabled:border-blue-400
 `;
 
@@ -11,6 +17,7 @@ export const inputTextBaseClass = `
   px-4
   not-focus:disabled:overflow-hidden not-focus:disabled:text-ellipsis
   disabled:border-transparent
+  disabled:pointer-events-none
 `;
 
 export const inputDateBaseClass = `
