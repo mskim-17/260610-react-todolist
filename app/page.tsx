@@ -2,17 +2,16 @@
 
 import { useRef, useState } from "react";
 import CreateTask from "./components/createTask";
-import { TaskType, TaskInputType } from "./types/task";
-import { ViewTasks, ViewTasksDate } from "./components/viewTasks";
-import { getDateStr, getTodayStr, getTomorrow, getYesterday } from "./utils/date";
-import Image from "next/image";
+import { ViewTasks } from "./components/viewTasks";
+import { TaskType } from "./types/task";
+import { getTodayDateString } from "./utils/date";
 
 export default function Home() {
 
   const [tasks, setTasks] = useState<TaskType[]>([]);
   const [taskInputs, setTaskInputs] = useState({
     name: '',
-    date: getTodayStr()
+    date: getTodayDateString()
   });
   const nextId = useRef(0);
 
@@ -64,7 +63,7 @@ export default function Home() {
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex flex-1 w-full max-w-xl flex-col items-center py-32 px-16 bg-white dark:bg-black ">
-        <h1 className="text-4xl font-bold text-center mb-5 select-none">📌 TODO LIST</h1>
+        <h1 className="text-4xl font-semibold text-center mb-5 select-none">📌 TODO LIST</h1>
         {/* Create Task */}
         <CreateTask name={name} date={date} onChange={onChange} onCreate={onCreate} />
         {/* View Task */}

@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { TaskType } from "../types/task";
 import { useState } from "react";
-import { getDateStr, getTodayStr, getTomorrow, getYesterday } from "../utils/date";
+import { TaskType } from "../types/task";
+import { getShiftedDateString, getTodayDateString } from "../utils/date";
 
 type ViewTaskProps = {
   task: TaskType,
@@ -64,7 +64,7 @@ function ViewTask({ task, showDate, onEdit, onRemove }: ViewTaskProps) {
       <input
         type="date"
         name="date"
-        min={getTodayStr()}
+        min={getTodayDateString()}
         className={`tabular-nums tracking-tighter text-[14px] 
                    outline-none w-[120px] h-[28px] box-border 
                    border border-zinc-300 rounded-full px-2
@@ -114,7 +114,7 @@ export function ViewTasksDate({ selectedDate, setSelectedDate, tasks, onEdit, on
       <div className="flex items-center justify-center mt-7">
         <button
           className="w-[16px] h-[16px] hover:cursor-pointer select-none"
-          onClick={() => setSelectedDate(getDateStr(getYesterday(new Date(selectedDate))))}
+          onClick={() => setSelectedDate(getShiftedDateString(selectedDate, -1))}
         >
           <Image
             src="/images/angle-right-solid.svg"
@@ -129,7 +129,7 @@ export function ViewTasksDate({ selectedDate, setSelectedDate, tasks, onEdit, on
         </div>
         <button
           className="w-[16px] h-[16px] hover:cursor-pointer select-none"
-          onClick={() => setSelectedDate(getDateStr(getTomorrow(new Date(selectedDate))))}
+          onClick={() => setSelectedDate(getShiftedDateString(selectedDate, 1))}
         >
           <Image
             src="/images/angle-right-solid.svg"
@@ -164,7 +164,7 @@ export function ViewTasksAll({ tasks, onEdit, onRemove }: ViewTasksProps) {
 export function ViewTasks({ tasks, onEdit, onRemove }: ViewTasksProps) {
 
   const [showAll, setShowAll] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<string>(getTodayStr());
+  const [selectedDate, setSelectedDate] = useState<string>(getTodayDateString());
 
   return (
     <div className="w-[410px]">

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getTodayStr } from "../utils/date";
+import { getTodayDateString } from "../utils/date";
 import Image from "next/image";
 
 type CreateTaskProps = {
@@ -28,7 +28,7 @@ export default function CreateTask({ name, date, onChange, onCreate }: CreateTas
         type="date"
         name="date"
         value={date}
-        min={getTodayStr()}
+        min={getTodayDateString()}
         className="tabular-nums tracking-tighter text-[14px] 
                    outline-none w-[120px] h-[28px] box-border 
                    border border-zinc-300 rounded-full px-2
