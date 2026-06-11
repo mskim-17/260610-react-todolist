@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
-      className={`${googleSans.variable} font-pretendard h-full antialiased`}
+      className={`${googleSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

@@ -66,7 +66,7 @@ export default function Home() {
 
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-zinc-900">
+    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-pretendard dark:bg-zinc-900">
       <main className="flex flex-1 w-full max-w-xl flex-col items-center py-32 px-16 ">
         <h1 className="text-4xl font-semibold text-center mb-5 select-none font-google">TODO-LIST</h1>
         {/* Create Task */}
